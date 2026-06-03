@@ -1,0 +1,7 @@
+MARCA-4 GitHub Pages build report
+
+Root index.html: True
+Assets folder: True
+UTF-8 charset in index: True
+Missing local asset refs: 0
+Public URL: https://liebeseele1002-svg.github.io/MARCA-4/
