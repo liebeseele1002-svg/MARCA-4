@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="google-site-verification" content="MkFWmSdIDCT300dr3kgWtf2E08CHuEacA-313fHmjG8" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MARCA — 暮らしをデザインする</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Shippori+Mincho:wght@400;500;700&family=Noto+Sans+JP:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & TOKENS ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --ink:      #20342f;
+  --ink-mid:  #526a62;
+  --ink-soft: #7b8f88;
+  --cream:    #fbf8ef;
+  --cream-2:  #f1f6eb;
+  --sky:      #58c8d8;
+  --sky-d:    #2faabd;
+  --green:    #6fbd7f;
+  --green-d:  #3f9f63;
+  --amber:    #f3b85d;
+  --white:    #ffffff;
+  --r:        0.5rem;
+  --r2:       1rem;
+  --font-disp: 'Cormorant Garamond', serif;
+  --font-jp:   'Shippori Mincho', serif;
+  --font-body: 'Noto Sans JP', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --shadow:    0 4px 24px rgba(14,26,14,0.08);
+  --shadow-lg: 0 12px 48px rgba(14,26,14,0.14);
+  --ease:      cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.hero-img-placeholder {
+  background-position: 42% 28%;
+}
+.about-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 60% 64%;
+}
+.product-card-img img {
+  object-position: 46% 36%;
+}
+.vending-machine-frame {
+  overflow: hidden;
+}
+.vending-machine-frame img {
+  object-fit: cover !important;
+  object-position: 46% 34%;
+}
+a { color: inherit; text-decoration: none; }
+button, .btn { cursor: pointer; border: none; outline: none; font-family: var(--font-body); }
+
+/* ─── SCROLL ANIMATION ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ─── HEADER ─── */
+#header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(255,252,244,0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(14,26,14,0.08);
+  transition: background 0.3s;
+}
+.header-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 2rem;
+  height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  font-family: var(--font-disp);
+  font-size: 1.6rem; font-weight: 600; letter-spacing: 0.12em;
+  color: var(--ink);
+}
+.logo-mark {
+  width: 34px; height: 34px; flex-shrink: 0;
+  object-fit: contain;
+}
+.logo-text {
+  display: inline-block;
+  color: var(--ink);
+  line-height: 1;
+}
+nav { display: flex; gap: 2rem; align-items: center; }
+nav a {
+  font-size: 0.8rem; font-weight: 400; letter-spacing: 0.08em;
+  color: var(--ink-mid);
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+nav a:hover { color: var(--green); }
+.nav-cta {
+  background: var(--green); color: var(--white) !important;
+  padding: 0.45rem 1.1rem; border-radius: 2rem;
+  font-size: 0.78rem !important; font-weight: 500 !important;
+  transition: background 0.2s !important;
+}
+.nav-cta:hover { background: var(--green-d) !important; }
+.hamburger {
+  display: none; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 4px;
+}
+.hamburger span {
+  display: block; width: 24px; height: 1.5px;
+  background: var(--ink); border-radius: 2px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.mobile-nav {
+  display: none; position: fixed; inset: 0; z-index: 999;
+  background: var(--cream); flex-direction: column;
+  align-items: center; justify-content: center; gap: 2.5rem;
+  padding: 2rem;
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a {
+  font-family: var(--font-jp); font-size: 1.3rem;
+  color: var(--ink); letter-spacing: 0.1em;
+}
+.mobile-nav-close {
+  position: absolute; top: 1.5rem; right: 1.5rem;
+  background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--ink);
+}
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #fbf8ef 0%, #edf8f5 52%, #e7f7fb 100%);
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    linear-gradient(90deg, rgba(255,252,244,0.96) 0%, rgba(255,252,244,0.88) 34%, rgba(255,252,244,0.62) 58%, rgba(255,252,244,0.18) 78%, rgba(255,252,244,0.06) 100%),
+    radial-gradient(ellipse 70% 55% at 12% 70%, rgba(111,189,127,0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 55% 45% at 80% 30%, rgba(88,200,216,0.14) 0%, transparent 68%);
+}
+/* 画像プレースホルダー（後から差し替え） */
+.hero-img-placeholder {
+  position: absolute; inset: 0; z-index: 1;
+  opacity: 1;
+  background: url('assets/images/hero/main-visual.jpg') center/cover no-repeat;
+}
+.hero-noise {
+  position: absolute; inset: 0; z-index: 2;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 160px;
+  pointer-events: none;
+}
+.hero-content {
+  position: relative; z-index: 3;
+  max-width: 1200px; margin: 0 auto; padding: 8rem 2rem 4rem;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+}
+.hero-left {
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.58);
+  border-radius: 1.5rem;
+  padding: 2rem 2.2rem;
+  box-shadow: 0 16px 44px rgba(32,52,47,0.12);
+}
+.hero-tag {
+  font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.2em;
+  color: var(--green-d); margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.hero-tag::before {
+  content: ''; display: block; width: 32px; height: 1px; background: var(--green-d);
+}
+.hero-title {
+  font-family: var(--font-disp); font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 300; line-height: 1.1; color: var(--ink);
+  margin-bottom: 0.5rem; letter-spacing: -0.01em;
+}
+.hero-title em { font-style: italic; color: var(--green-d); }
+.hero-tag,
+.hero-title,
+.hero-title-jp,
+.hero-desc {
+  text-shadow:
+    0 1px 0 rgba(255,255,255,0.98),
+    0 0 14px rgba(255,255,255,0.42);
+}
+.hero-title-jp {
+  font-family: var(--font-jp); font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+  font-weight: 400; color: var(--ink-mid);
+  letter-spacing: 0.3em; margin-bottom: 2rem;
+}
+.hero-desc {
+  font-size: 0.95rem; color: var(--ink-mid);
+  line-height: 1.9; margin-bottom: 2.5rem; font-weight: 300;
+}
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--green); color: var(--white);
+  padding: 0.85rem 2rem; border-radius: 2rem;
+  font-size: 0.88rem; font-weight: 500; letter-spacing: 0.04em;
+  transition: background 0.2s, transform 0.2s;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.btn-primary:hover { background: var(--green-d); transform: translateY(-1px); }
+.btn-primary, .btn-outline {
+  box-shadow: 0 8px 20px rgba(32,52,47,0.10);
+}
+.btn-outline {
+  border: 1px solid rgba(47,170,189,0.45); color: var(--sky-d);
+  padding: 0.85rem 2rem; border-radius: 2rem;
+  font-size: 0.88rem; font-weight: 400; letter-spacing: 0.04em;
+  transition: border-color 0.2s, color 0.2s;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.btn-outline:hover { border-color: var(--green-d); color: var(--green-d); }
+.hero-right {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+}
+.hero-card {
+  background: rgba(255,255,255,0.78);
+  border: 1px solid rgba(111,189,127,0.22);
+  border-radius: 1rem; padding: 1.4rem 1.2rem;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 30px rgba(32,52,47,0.08);
+  transition: border-color 0.3s, background 0.3s, transform 0.3s;
+}
+.hero-card:hover { border-color: rgba(88,200,216,0.45); background: rgba(255,255,255,0.92); transform: translateY(-2px); }
+.hero-card-icon { font-size: 1.8rem; margin-bottom: 0.75rem; }
+.hero-card-title {
+  font-family: var(--font-jp); font-size: 0.88rem; font-weight: 500;
+  color: var(--ink); margin-bottom: 0.35rem; letter-spacing: 0.05em;
+}
+.hero-card-sub { font-size: 0.75rem; color: var(--ink-soft); line-height: 1.6; }
+.hero-scroll {
+  position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+  z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+}
+.hero-scroll span {
+  font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.2em;
+  color: rgba(32,52,47,0.65);
+}
+.hero-scroll-line {
+  width: 1px; height: 48px; background: linear-gradient(to bottom, rgba(32,52,47,0.48), transparent);
+  animation: scrollLine 2s ease-in-out infinite;
+}
+@keyframes scrollLine { 0%,100%{opacity:1;transform:scaleY(1)} 50%{opacity:0.4;transform:scaleY(0.5)} }
+
+/* ─── SECTION COMMON ─── */
+.section { padding: 7rem 2rem; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-label {
+  font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.25em;
+  color: var(--green); text-transform: uppercase;
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 1.2rem;
+}
+.section-label::before { content:''; display:block; width:28px; height:1px; background:var(--green); }
+.section-title {
+  font-family: var(--font-disp); font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 300; line-height: 1.2; letter-spacing: -0.01em;
+  margin-bottom: 1rem;
+}
+.section-title em { font-style: italic; color: var(--sky); }
+.section-lead {
+  font-size: 0.95rem; color: var(--ink-soft);
+  line-height: 1.9; font-weight: 300; max-width: 620px;
+}
+
+/* ─── ABOUT ─── */
+#about { background: var(--white); }
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+}
+.about-visual {
+  position: relative; aspect-ratio: 16/9; border-radius: 1.5rem; overflow: hidden;
+  background: var(--cream-2);
+}
+.about-visual-placeholder {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #e8f5ea, #e0f7fb);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-jp); font-size: 0.85rem; color: var(--ink-soft);
+}
+/* ↑ <img src="ABOUT_IMAGE_URL" alt=""> に差し替え */
+.about-deco {
+  position: absolute; bottom: -1rem; right: -1rem;
+  width: 120px; height: 120px; border-radius: 1rem;
+  background: var(--green); opacity: 0.12;
+}
+.about-pillars { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 2.5rem; }
+.pillar {
+  display: flex; align-items: flex-start; gap: 1rem;
+  padding: 1rem 1.2rem; border-radius: 0.75rem;
+  border: 1px solid rgba(14,26,14,0.08);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.pillar:hover { border-color: var(--green); box-shadow: var(--shadow); }
+.pillar-num {
+  font-family: var(--font-mono); font-size: 0.7rem;
+  color: var(--sky); flex-shrink: 0; margin-top: 0.2rem;
+}
+.pillar-body {}
+.pillar-title {
+  font-family: var(--font-jp); font-size: 0.92rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 0.2rem;
+}
+.pillar-desc { font-size: 0.82rem; color: var(--ink-soft); line-height: 1.7; }
+
+/* ─── PRODUCTS ─── */
+#products { background: var(--cream); }
+.products-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+  margin-top: 3rem;
+}
+.product-card {
+  background: var(--white); border-radius: 1.25rem;
+  overflow: hidden; box-shadow: var(--shadow);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s;
+  display: flex; flex-direction: column;
+}
+.product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.product-card-img {
+  aspect-ratio: 4/3;
+  background: var(--cream-2);
+  position: relative; overflow: hidden;
+}
+.product-card-img-inner {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem;
+}
+.product-card-img img {
+  width: 100%; height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+}
+/* ↑ <img src="PRODUCT_IMAGE_URL" alt=""> に差し替え */
+.product-card-badge {
+  position: absolute; top: 0.8rem; left: 0.8rem;
+  font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.15em;
+  padding: 0.3rem 0.75rem; border-radius: 1rem;
+  background: rgba(255,255,255,0.92); color: var(--ink-mid);
+}
+.product-card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+.product-card-cat {
+  font-size: 0.72rem; color: var(--green); font-weight: 500;
+  letter-spacing: 0.1em; margin-bottom: 0.4rem;
+}
+.product-card-title {
+  font-family: var(--font-jp); font-size: 1.05rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 0.5rem;
+}
+.product-card-desc { font-size: 0.83rem; color: var(--ink-soft); line-height: 1.75; flex: 1; }
+.product-card-items {
+  margin: 0.75rem 0; display: flex; flex-wrap: wrap; gap: 0.4rem;
+}
+.product-tag {
+  font-size: 0.72rem; background: var(--cream); color: var(--ink-mid);
+  padding: 0.2rem 0.6rem; border-radius: 1rem;
+  border: 1px solid rgba(14,26,14,0.1);
+}
+.btn-rakuten {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  background: var(--ink); color: var(--white);
+  padding: 0.7rem 1.2rem; border-radius: 0.5rem;
+  font-size: 0.83rem; font-weight: 500; letter-spacing: 0.04em;
+  margin-top: 1rem;
+  transition: background 0.2s;
+}
+.btn-rakuten:hover { background: var(--green); }
+.btn-rakuten svg { width: 16px; height: 16px; }
+/* ─ 楽天リンクURL ─
+   href="https://item.rakuten.co.jp/marca-acc/c/0000000140/?l-id=shoptop_shopmenu_categorypage_3"  → 健康器具カテゴリページURL
+   href="https://item.rakuten.co.jp/marca-acc/c/0000000196/?l-id=shoptop_shopmenu_categorypage_4" → アウトドアカテゴリページURL
+   href="https://item.rakuten.co.jp/marca-acc/c/0000000117/?l-id=shoptop_shopmenu_categorypage_2"     → ペットカテゴリページURL
+   ↑ 後から差し替えてください
+*/
+
+/* ─── VENDING ─── */
+#vending { background: linear-gradient(135deg, #eef9f1 0%, #f8fbef 48%, #e8f8fb 100%); position: relative; overflow: hidden; }
+.vending-bg-deco {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 50%, rgba(88,200,216,0.20) 0%, transparent 70%),
+    radial-gradient(ellipse 42% 60% at 10% 30%, rgba(111,189,127,0.22) 0%, transparent 62%);
+}
+.vending-inner { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 7rem 2rem; }
+.vending-label { color: var(--sky) !important; }
+.vending-label::before { background: var(--sky) !important; }
+.vending-title { color: var(--ink); }
+.vending-lead { color: var(--ink-mid); }
+.vending-machine-visual {
+  margin-top: 2rem; margin-bottom: 2.5rem;
+  display: flex; flex-direction: column; align-items: center;
+}
+.vending-machine-frame {
+  width: min(100%, 420px);
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.12);
+  box-shadow: var(--shadow-lg);
+}
+.vending-machine-frame img {
+  width: 100%; height: auto; display: block; object-fit: contain;
+}
+.vending-machine-caption {
+  margin-top: 0.9rem;
+  font-size: 0.78rem;
+  color: var(--ink);
+  letter-spacing: 0.08em;
+  background: rgba(255,255,255,0.88);
+  border: 1px solid rgba(111,189,127,0.24);
+  border-radius: 999px;
+  padding: 0.38rem 0.9rem;
+  box-shadow: 0 8px 22px rgba(32,52,47,0.08);
+}
+
+/* ZEROMILE ブロック */
+.zeromile-block {
+  margin-top: 2rem; margin-bottom: 4rem;
+  background: rgba(255,255,255,0.82);
+  border: 1px solid rgba(88,200,216,0.28);
+  border-radius: 1.25rem; padding: 2rem 2.5rem;
+  box-shadow: 0 14px 42px rgba(32,52,47,0.08);
+}
+.zeromile-badge {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  background: rgba(75,191,202,0.15); border: 1px solid rgba(75,191,202,0.3);
+  padding: 0.35rem 1rem; border-radius: 2rem;
+  font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.15em;
+  color: var(--sky); margin-bottom: 1rem;
+}
+.zeromile-title {
+  font-family: var(--font-disp); font-size: 2.2rem; font-weight: 300;
+  color: var(--ink); letter-spacing: 0.08em; margin-bottom: 0.4rem;
+}
+.zeromile-title em { color: var(--sky); font-style: normal; }
+.zeromile-sub {
+  font-family: var(--font-jp); font-size: 0.9rem;
+  color: var(--ink-mid); letter-spacing: 0.15em; margin-bottom: 1.2rem;
+}
+.zeromile-desc {
+  font-size: 0.88rem; color: var(--ink-mid); line-height: 1.9; margin-bottom: 1.5rem;
+}
+.zeros-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.75rem; margin-bottom: 1.5rem;
+}
+.zero-chip {
+  background: rgba(255,255,255,0.75); border: 1px solid rgba(88,200,216,0.25);
+  border-radius: 0.75rem; padding: 0.75rem 0.5rem; text-align: center;
+}
+.zero-chip-letter {
+  font-family: var(--font-disp); font-size: 1.6rem; font-weight: 600;
+  color: var(--sky); line-height: 1; margin-bottom: 0.25rem;
+}
+.zero-chip-word { font-size: 0.62rem; color: var(--ink-soft); letter-spacing: 0.05em; line-height: 1.4; }
+.zero-chip-jp { font-size: 0.7rem; color: rgba(75,191,202,0.8); margin-top: 0.25rem; }
+
+/*  ブロック */
+.vending-two-col {
+  display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: start;
+  margin-top: 1rem;
+}
+.meister-block {
+  background: rgba(58,158,110,0.08);
+  border: 1px solid rgba(58,158,110,0.25);
+  border-radius: 1.25rem; padding: 2rem 2.5rem;
+}
+.meister-badge {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  background: rgba(58,158,110,0.15); border: 1px solid rgba(58,158,110,0.3);
+  padding: 0.35rem 1rem; border-radius: 2rem;
+  font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.15em;
+  color: var(--green); margin-bottom: 1rem;
+}
+.meister-title {
+  font-family: var(--font-jp); font-size: 1.4rem; font-weight: 700;
+  color: var(--white); letter-spacing: 0.08em; margin-bottom: 0.5rem;
+}
+.meister-desc {
+  font-size: 0.85rem; color: rgba(255,255,255,0.55); line-height: 1.9; margin-bottom: 1.2rem;
+}
+.meister-features { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.5rem; }
+.meister-feature {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  font-size: 0.83rem; color: rgba(255,255,255,0.7);
+}
+.meister-feature::before {
+  content: '✓'; color: var(--green); flex-shrink: 0; font-weight: 700;
+}
+
+/* 導入の流れ */
+.vending-steps {
+  margin-top: 1rem;
+  background: rgba(255,255,255,0.86);
+  border: 1px solid rgba(111,189,127,0.22);
+  border-radius: 1.25rem;
+  padding: 1.5rem 1.4rem;
+  box-shadow: 0 12px 34px rgba(32,52,47,0.08);
+}
+.steps-title {
+  font-family: var(--font-jp); font-size: 0.95rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 1.2rem; letter-spacing: 0.05em;
+}
+.steps-list { display: flex; flex-direction: column; gap: 0.8rem; }
+.step {
+  display: flex; gap: 1rem; align-items: flex-start;
+  position: relative;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(88,200,216,0.18);
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+}
+.step:not(:last-child)::after {
+  display: none;
+}
+.step-num {
+  width: 2.2rem; height: 2.2rem; border-radius: 50%; flex-shrink: 0;
+  background: var(--green); display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 0.72rem; color: var(--white);
+  position: relative; z-index: 1;
+  box-shadow: 0 6px 16px rgba(63,159,99,0.22);
+}
+.step-body { padding: 0.1rem 0 0; }
+.step-title {
+  font-family: var(--font-jp); font-size: 0.9rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 0.25rem;
+}
+.step-desc { font-size: 0.8rem; color: var(--ink-mid); line-height: 1.7; }
+
+/* 価格カード */
+.price-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+.price-card {
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0.75rem; padding: 1.2rem 1.4rem;
+  background: rgba(255,255,255,0.03);
+}
+.price-card-label {
+  font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.15em;
+  color: var(--sky); margin-bottom: 0.4rem;
+}
+.price-card-amount {
+  font-family: var(--font-disp); font-size: 1.6rem; font-weight: 300;
+  color: var(--white); line-height: 1; margin-bottom: 0.3rem;
+}
+.price-card-amount span { font-size: 0.85rem; color: rgba(255,255,255,0.5); }
+.price-card-note { font-size: 0.75rem; color: var(--ink-soft); line-height: 1.6; }
+
+/* ─── COMPANY ─── */
+#company { background: var(--cream-2); }
+.company-grid {
+  display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; align-items: start;
+  margin-top: 3rem;
+}
+.company-table { width: 100%; border-collapse: collapse; }
+.company-table tr { border-bottom: 1px solid rgba(14,26,14,0.08); }
+.company-table td { padding: 0.85rem 0; font-size: 0.88rem; vertical-align: top; }
+.company-table td:first-child {
+  color: var(--ink-soft); font-weight: 500; width: 35%; white-space: nowrap;
+}
+.company-table td:last-child { color: var(--ink); }
+/* ↑ Google Maps埋め込みiframeに差し替え */
+
+/* ─── CONTACT ─── */
+#contact { padding-bottom: 1.5rem; }
+.contact-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 5rem; margin-top: 3rem; }
+.form-group { margin-bottom: 1.2rem; }
+.form-label {
+  display: block; font-size: 0.82rem; font-weight: 500;
+  color: var(--ink-mid); margin-bottom: 0.4rem; letter-spacing: 0.04em;
+}
+.form-label .req {
+  font-size: 0.68rem; background: var(--green); color: var(--white);
+  padding: 0.1rem 0.4rem; border-radius: 0.2rem; margin-left: 0.4rem;
+}
+.form-input, .form-select, .form-textarea {
+  width: 100%; padding: 0.75rem 1rem;
+  border: 1px solid rgba(14,26,14,0.12); border-radius: 0.5rem;
+  font-family: var(--font-body); font-size: 0.88rem; color: var(--ink);
+  background: var(--cream); outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--green); box-shadow: 0 0 0 3px rgba(58,158,110,0.1);
+}
+.form-textarea { resize: vertical; min-height: 120px; }
+.form-submit {
+  width: 100%; padding: 0.9rem;
+  background: var(--green); color: var(--white);
+  border-radius: 0.5rem; font-size: 0.9rem; font-weight: 500;
+  letter-spacing: 0.05em; transition: background 0.2s;
+}
+.form-submit:hover { background: var(--green-d); }
+.google-form-embed {
+  width: 100%;
+  background: var(--white);
+  border: 1px solid rgba(111,189,127,0.22);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 0;
+}
+.google-form-embed iframe {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 1700px;
+  border: 0;
+  background: var(--white);
+}
+.contact-info { padding-top: 0.5rem; }
+.contact-info-title {
+  font-family: var(--font-jp); font-size: 1.05rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 1.5rem;
+}
+.contact-info-item {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  margin-bottom: 1rem; font-size: 0.88rem; color: var(--ink-mid);
+}
+.contact-info-icon {
+  width: 2rem; height: 2rem; background: var(--cream-2); border-radius: 0.4rem;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem; flex-shrink: 0;
+}
+.general-contact {
+  margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(14,26,14,0.08);
+}
+.general-contact-title {
+  font-family: var(--font-jp); font-size: 0.95rem; font-weight: 700;
+  color: var(--ink); margin-bottom: 1rem;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--ink); color: rgba(255,255,255,0.5);
+  padding: 3.5rem 2rem 2rem;
+}
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 2.5rem; flex-wrap: wrap; gap: 2rem;
+}
+.footer-logo {
+  display: inline-flex; align-items: center; gap: 0.8rem;
+  font-family: var(--font-disp); font-size: 1.5rem; font-weight: 600;
+  letter-spacing: 0.12em; color: var(--white); margin-bottom: 0.5rem;
+}
+.footer-logo .logo-mark {
+  width: 44px; height: 44px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.96);
+  border-radius: 0.85rem;
+  padding: 0.38rem;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.20);
+}
+.footer-logo .logo-text {
+  color: var(--white);
+  line-height: 1;
+  text-shadow: 0 1px 10px rgba(0,0,0,0.18);
+}
+.footer-tagline {
+  font-family: var(--font-jp);
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.76);
+}
+.footer-links {
+  display: flex; gap: 3rem; flex-wrap: wrap;
+}
+.footer-col-title {
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em;
+  color: var(--white); margin-bottom: 1rem;
+}
+.footer-col a {
+  display: block; font-size: 0.78rem; margin-bottom: 0.5rem;
+  color: var(--ink-soft); transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--sky); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.07); padding-top: 1.5rem;
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+}
+.footer-copy { font-size: 0.75rem; }
+.footer-policy-links { display: flex; gap: 1.5rem; }
+.footer-policy-links a { font-size: 0.75rem; color: rgba(32,52,47,0.65); transition: color 0.2s; }
+.footer-policy-links a:hover { color: var(--white); }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1024px) {
+  .hero-content { grid-template-columns: 1fr; gap: 3rem; }
+  .hero-right { display: none; }
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .about-visual { display: none; }
+  .vending-two-col { grid-template-columns: 1fr; }
+  .company-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+}
+@media (max-width: 768px) {
+  .hero-left { padding: 1.4rem 1.2rem; }
+  .logo { gap: 0.55rem; font-size: 1.35rem; }
+  .logo-mark { width: 28px; height: 28px; }
+  .footer-logo .logo-mark { width: 32px; height: 32px; }
+  nav { display: none; }
+  .hamburger { display: flex; }
+  .products-grid { grid-template-columns: 1fr; }
+  .zeros-grid { grid-template-columns: repeat(3, 1fr); }
+  .price-cards { grid-template-columns: 1fr; }
+  .section { padding: 5rem 1.25rem; }
+  .vending-inner { padding: 5rem 1.25rem; }
+  .zeromile-block { padding: 1.5rem; }
+  .meister-block { padding: 1.5rem; }
+  .footer-top { flex-direction: column; }
+  .footer-links { flex-direction: column; gap: 2rem; }
+}
+@media (max-width: 480px) {
+  .hero-title { font-size: 2.4rem; }
+  .zeros-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header id="header">
+  <div class="header-inner">
+    <a href="#" class="logo"><img src="assets/images/logo/marca-mark.png" alt="MARCAロゴ" class="logo-mark"><span class="logo-text">MARCA</span></a>
+    <nav>
+      <a href="#about">ブランド</a>
+      <a href="#products">プロダクト</a>
+      <a href="#vending">自販機事業</a>
+      <a href="#company">会社情報</a>
+      <a href="#contact" class="nav-cta">お問い合わせ</a>
+    </nav>
+    <button class="hamburger" id="hamburger" aria-label="メニュー">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- モバイルナビ -->
+<div class="mobile-nav" id="mobileNav">
+  <button class="mobile-nav-close" id="mobileClose">✕</button>
+  <a href="#about" class="mobile-link">ブランド</a>
+  <a href="#products" class="mobile-link">プロダクト</a>
+  <a href="#vending" class="mobile-link">自販機事業</a>
+  <a href="#company" class="mobile-link">会社情報</a>
+  <a href="#contact" class="mobile-link">お問い合わせ</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-img-placeholder"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <p class="hero-tag">MARCA — DESIGN YOUR LIFE</p>
+      <h1 class="hero-title">
+        Design<br>
+        <em>your</em><br>
+        everyday.
+      </h1>
+      <p class="hero-title-jp">暮らしをデザインする</p>
+      <p class="hero-desc">
+        身体、遊び、家族との時間、そして食。<br>
+        MARCAは4つの領域から、あなたの毎日に<br>
+        "ちょうどいい"を届けます。
+      </p>
+      <div class="hero-btns">
+        <a href="#about" class="btn-primary">ブランドを知る →</a>
+        <a href="#contact" class="btn-outline">自販機を導入する</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hero-card-icon">💪</div>
+        <p class="hero-card-title">身体と暮らし</p>
+        <p class="hero-card-sub">ヨガバンド・マッサージガン・筋膜ボール</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon">⛺</div>
+        <p class="hero-card-title">遊びと暮らし</p>
+        <p class="hero-card-sub">キャンプ・アウトドア用品</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon">🐕</div>
+        <p class="hero-card-title">共に生きる暮らし</p>
+        <p class="hero-card-sub">高級レザードッグリード</p>
+      </div>
+      <div class="hero-card">
+        <div class="hero-card-icon">🌿</div>
+        <p class="hero-card-title">食と暮らし</p>
+        <p class="hero-card-sub">農産物自動販売機事業 NEW</p>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- ─── ABOUT ─── -->
+<section id="about" class="section">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-visual">
+        <img src="assets/images/about/about-image.jpg" alt="MARCAブランドイメージ">
+        <div class="about-deco"></div>
+      </div>
+      <div>
+        <p class="section-label reveal">ABOUT MARCA</p>
+        <h2 class="section-title reveal reveal-delay-1">
+          暮らしの4つの<em>軸</em>から<br>届けたいもの
+        </h2>
+        <p class="section-lead reveal reveal-delay-2">
+          MARCAは「暮らしをデザインする」というコンセプトのもと、健康・アウトドア・ペット・食の4領域で、日々の生活をちょっと豊かにするプロダクト&サービスを提供しています。
+        </p>
+        <div class="about-pillars">
+          <div class="pillar reveal reveal-delay-1">
+            <span class="pillar-num">01</span>
+            <div class="pillar-body">
+              <p class="pillar-title">身体と暮らし</p>
+              <p class="pillar-desc">ヨガバンドや電動マッサージボールで、毎日のセルフケアをサポート。</p>
+            </div>
+          </div>
+          <div class="pillar reveal reveal-delay-2">
+            <span class="pillar-num">02</span>
+            <div class="pillar-body">
+              <p class="pillar-title">遊びと暮らし</p>
+              <p class="pillar-desc">キャンプギアで、非日常の豊かな時間を演出します。</p>
+            </div>
+          </div>
+          <div class="pillar reveal reveal-delay-3">
+            <span class="pillar-num">03</span>
+            <div class="pillar-body">
+              <p class="pillar-title">共に生きる暮らし</p>
+              <p class="pillar-desc">高品質な本革リードで、大切なパートナーとの時間を上質に。</p>
+            </div>
+          </div>
+          <div class="pillar reveal reveal-delay-4">
+            <span class="pillar-num">04</span>
+            <div class="pillar-body">
+              <p class="pillar-title">食と暮らし</p>
+              <p class="pillar-desc">農産物自動販売機で、生産者と消費者を直接つなぐ新しい流通を。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRODUCTS ─── -->
+<section id="products" class="section">
+  <div class="section-inner">
+    <p class="section-label reveal">EC PRODUCTS</p>
+    <h2 class="section-title reveal reveal-delay-1">楽天市場で<em>展開中</em>の<br>プロダクトライン</h2>
+    <p class="section-lead reveal reveal-delay-2">
+      MARCAの3つのEC事業カテゴリは、楽天市場にてご購入いただけます。各カテゴリの「楽天市場で見る」ボタンからショップページへどうぞ。
+    </p>
+    <div class="products-grid">
+
+      <!-- 健康器具 -->
+      <div class="product-card reveal reveal-delay-1">
+        <div class="product-card-img">
+          <img src="assets/images/products/health-exercise-band.jpg" alt="健康器具">
+          <span class="product-card-badge">HEALTH</span>
+        </div>
+        <div class="product-card-body">
+          <p class="product-card-cat">身体と暮らし</p>
+          <h3 class="product-card-title">健康器具</h3>
+          <p class="product-card-desc">毎日のセルフケアを手軽に。ジムに行かなくても、自宅で本格ケアができるアイテムを揃えました。</p>
+          <div class="product-card-items">
+            <span class="product-tag">ヨガバンド</span>
+            <span class="product-tag">MINIハンディガン</span>
+            <span class="product-tag">電動筋膜マッサージボール</span>
+          </div>
+          <a href="https://item.rakuten.co.jp/marca-acc/c/0000000140/?l-id=shoptop_shopmenu_categorypage_3" target="_blank" rel="noopener" class="btn-rakuten">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            楽天市場で見る
+          </a>
+        </div>
+      </div>
+
+      <!-- アウトドア -->
+      <div class="product-card reveal reveal-delay-2">
+        <div class="product-card-img">
+          <img src="assets/images/products/outdoor-tent.jpg" alt="アウトドアグッズ">
+          <span class="product-card-badge">OUTDOOR</span>
+        </div>
+        <div class="product-card-body">
+          <p class="product-card-cat">遊びと暮らし</p>
+          <h3 class="product-card-title">アウトドアグッズ</h3>
+          <p class="product-card-desc">キャンプ場でも、自宅の庭でも。日常を飛び出す「遊び」のための道具を厳選しました。</p>
+          <div class="product-card-items">
+            <span class="product-tag">キャンプ用品</span>
+            <span class="product-tag">アウトドアギア</span>
+          </div>
+          <a href="https://item.rakuten.co.jp/marca-acc/c/0000000196/?l-id=shoptop_shopmenu_categorypage_4" target="_blank" rel="noopener" class="btn-rakuten">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            楽天市場で見る
+          </a>
+        </div>
+      </div>
+
+      <!-- ペット -->
+      <div class="product-card reveal reveal-delay-3">
+        <div class="product-card-img">
+          <img src="assets/images/products/pet-water-bottle.jpg" alt="ペットグッズ">
+          <span class="product-card-badge">PET</span>
+        </div>
+        <div class="product-card-body">
+          <p class="product-card-cat">共に生きる暮らし</p>
+          <h3 class="product-card-title">ペットグッズ</h3>
+          <p class="product-card-desc">大切な家族だから、本物を。職人が仕上げた上質な本革ドッグリードで、散歩の時間をもっと特別に。</p>
+          <div class="product-card-items">
+            <span class="product-tag">犬用本革ドッグリード</span>
+            <span class="product-tag">高級レザー</span>
+          </div>
+          <a href="https://item.rakuten.co.jp/marca-acc/c/0000000117/?l-id=shoptop_shopmenu_categorypage_2" target="_blank" rel="noopener" class="btn-rakuten">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            楽天市場で見る
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── VENDING ─── -->
+<section id="vending">
+  <div class="vending-bg-deco"></div>
+  <div class="vending-inner">
+    <p class="section-label vending-label reveal">FOOD & VENDING</p>
+    <h2 class="section-title vending-title reveal reveal-delay-1">
+      食と暮らしを、<em>直接</em>つなぐ。<br>農産物自動販売機事業
+    </h2>
+    <p class="section-lead vending-lead reveal reveal-delay-2">
+      生産者と消費者の間にある「距離」をゼロへ。MARCAは農業法人向け次世代農産物自動販売機「ZEROMILE」で、新しい収益チャネルを提供します。
+    </p>
+
+    <div class="vending-machine-visual reveal reveal-delay-3">
+      <div class="vending-machine-frame">
+        <img src="assets/images/vending/vending-machine.jpg" alt="農産物自動販売機">
+      </div>
+      <p class="vending-machine-caption">農産物自動販売機 イメージ</p>
+    </div>
+
+    <!-- ZEROMILE -->
+    <div class="zeromile-block reveal reveal-delay-1">
+      <div class="zeromile-badge">🌿 NEW — 農業法人向け</div>
+      <h3 class="zeromile-title">ZERO<em>MILE</em></h3>
+      <p class="zeromile-sub">食品輸送距離ゼロへ。5つのゼロで農業の未来を変える。</p>
+      <p class="zeromile-desc">
+        農業法人向けに開発された次世代農産物自動販売機。21.5型大型タッチパネル・全決済方式対応・リアルタイム遠隔管理システムを標準搭載。メインユニット＋BOXユニットの連結式で24〜48BOXまで柔軟に拡張できます。CO₂削減・SDGsへの取り組みとして社会貢献と収益向上を同時に実現します。
+      </p>
+      <div class="zeros-grid">
+        <div class="zero-chip"><div class="zero-chip-letter">M</div><div class="zero-chip-word">Margin</div><div class="zero-chip-jp">中間手数料</div></div>
+        <div class="zero-chip"><div class="zero-chip-letter">I</div><div class="zero-chip-word">Inventory<br>loss</div><div class="zero-chip-jp">廃棄ロス</div></div>
+        <div class="zero-chip"><div class="zero-chip-letter">L</div><div class="zero-chip-word">Leadtime</div><div class="zero-chip-jp">リードタイム</div></div>
+        <div class="zero-chip"><div class="zero-chip-letter">E</div><div class="zero-chip-word">Employment<br>cost</div><div class="zero-chip-jp">販売人件費</div></div>
+        <div class="zero-chip"><div class="zero-chip-letter">＋</div><div class="zero-chip-word">Food<br>Mile</div><div class="zero-chip-jp">輸送距離</div></div>
+      </div>
+      <a href="#contact" class="btn-primary" style="display:inline-flex;">ZEROMILEについて問い合わせる →</a>
+    </div>
+
+    <div class="vending-two-col">
+
+      <!-- 導入の流れ -->
+      <div class="vending-steps reveal reveal-delay-2">
+        <p class="steps-title">導入までの流れ</p>
+        <div class="steps-list">
+          <div class="step">
+            <div class="step-num">01</div>
+            <div class="step-body">
+              <p class="step-title">お問い合わせ</p>
+              <p class="step-desc">フォームまたはお電話でまずはご相談ください。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <div class="step-body">
+              <p class="step-title">お打合せ・現地調査</p>
+              <p class="step-desc">設置場所の確認・電源環境・設置プランをご提案します。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <div class="step-body">
+              <p class="step-title">ご契約</p>
+              <p class="step-desc">ご契約内容を確認し、正式にご契約を締結します。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">04</div>
+            <div class="step-body">
+              <p class="step-title">製造・出荷準備</p>
+              <p class="step-desc">受注生産にて製造し、出荷準備を進めます。</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">05</div>
+            <div class="step-body">
+              <p class="step-title">設置完了・販売スタート</p>
+              <p class="step-desc">設置工事完了後すぐに販売を開始できます。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ─── COMPANY ─── -->
+<section id="company" class="section">
+  <div class="section-inner">
+    <p class="section-label reveal">COMPANY</p>
+    <h2 class="section-title reveal reveal-delay-1">会社<em>概要</em></h2>
+    <div class="company-grid">
+      <div class="reveal reveal-delay-2">
+        <table class="company-table">
+          <tr><td>会社名</td><td>株式会社MARCA</td></tr>
+          <tr><td>事業内容</td><td>健康器具・アウトドアグッズ・ペットグッズの販売（楽天市場）、農産物自動販売機の販売</td></tr>
+          <tr><td>所在地</td><td>〒641-0001<br>和歌山県和歌山市杭ノ瀬458番地32</td></tr>
+          <tr><td>電話</td><td><a href="tel:07018030069" style="color:var(--green)">070-1803-0069</a></td></tr>
+          <tr><td>FAX</td><td>073-472-0708</td></tr>
+          <tr><td>受付時間</td><td>平日 9:30〜18:00</td></tr>
+          <tr><td>楽天市場</td><td><a href="https://www.rakuten.co.jp/marca-acc/" target="_blank" rel="noopener" style="color:var(--green)">MARCA 楽天市場店 →</a></td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ─── -->
+<section id="contact" class="section">
+  <div class="section-inner">
+    <p class="section-label reveal">CONTACT</p>
+    <h2 class="section-title reveal reveal-delay-1">自販機導入の<br><em>ご相談</em>・お問い合わせ</h2>
+    <div class="contact-grid">
+
+      <!-- フォーム -->
+      <div class="reveal reveal-delay-2">
+        <div class="google-form-embed">
+          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdP0onsz4viWyzwZTEBv8-WfVD7Teb8PYzPESDprx9E9Sddlw/viewform?embedded=true" width="640" height="1700" frameborder="0" marginheight="0" marginwidth="0" scrolling="yes">読み込んでいます…</iframe>
+        </div>
+      </div>
+
+      <!-- 連絡先情報 -->
+      <div class="contact-info reveal reveal-delay-3">
+        <p class="contact-info-title">まずはお気軽にご相談ください</p>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📞</div>
+          <div>
+            <p style="font-weight:500;color:var(--ink)">070-1803-0069</p>
+            <p style="font-size:0.78rem;color:var(--ink-soft)">平日 9:30〜18:00</p>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📠</div>
+          <div>
+            <p style="font-weight:500;color:var(--ink)">073-472-0708</p>
+            <p style="font-size:0.78rem;color:var(--ink-soft)">FAX</p>
+          </div>
+        </div>
+        <div class="contact-info-item">
+          <div class="contact-info-icon">📍</div>
+          <div>
+            <p style="font-size:0.85rem;color:var(--ink)">〒641-0001<br>和歌山県和歌山市杭ノ瀬458番地32</p>
+          </div>
+        </div>
+
+        <!-- 一般お問い合わせ -->
+        <div class="general-contact">
+          <p class="general-contact-title">一般のお問い合わせ</p>
+          <p style="font-size:0.83rem;color:var(--ink-soft);line-height:1.8;margin-bottom:1.2rem;">
+            商品に関するご質問、楽天市場でのご購入に関するお問い合わせは、楽天市場の各商品ページよりお願いいたします。
+          </p>
+          <a href="https://www.rakuten.co.jp/marca-acc/" target="_blank" rel="noopener" class="btn-primary" style="display:inline-flex;background:var(--amber);">
+            楽天市場店へ →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <p class="footer-logo"><img src="assets/images/logo/marca-mark.png" alt="MARCAロゴ" class="logo-mark"><span class="logo-text">MARCA</span></p>
+        <p class="footer-tagline">暮らしをデザインする</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <p class="footer-col-title">事業</p>
+          <a href="#about">身体と暮らし</a>
+          <a href="#about">遊びと暮らし</a>
+          <a href="#about">共に生きる暮らし</a>
+          <a href="#vending">食と暮らし</a>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col-title">自販機事業</p>
+          <a href="#vending">ZEROMILE</a>
+          <a href="#contact">導入のご相談</a>
+        </div>
+        <div class="footer-col">
+          <p class="footer-col-title">会社</p>
+          <a href="#company">会社概要</a>
+          <a href="https://www.rakuten.co.jp/marca-acc/" target="_blank" rel="noopener">楽天市場店</a>
+          <a href="#contact">お問い合わせ</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2025 MARCA Inc. All rights reserved.</p>
+      <div class="footer-policy-links">
+        <a href="#">プライバシーポリシー</a>
+        <a href="#">特定商取引法に基づく表記</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── スクロールアニメーション ──
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ── ハンバーガーメニュー ──
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
+const mobileClose = document.getElementById('mobileClose');
+hamburger.addEventListener('click', () => mobileNav.classList.add('open'));
+mobileClose.addEventListener('click', () => mobileNav.classList.remove('open'));
+document.querySelectorAll('.mobile-link').forEach(link => {
+  link.addEventListener('click', () => mobileNav.classList.remove('open'));
+});
+
+// ── スクロールでヘッダー色変更 ──
+window.addEventListener('scroll', () => {
+  const hdr = document.getElementById('header');
+  hdr.style.background = window.scrollY > 60
+    ? 'rgba(245,242,235,0.98)'
+    : 'rgba(245,242,235,0.92)';
+});
+
+// ── フォーム送信（スタブ） ──
+// ── ヒーロー初期アニメーション ──
+window.addEventListener('load', () => {
+  document.querySelectorAll('.hero-left > *').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = `opacity 0.7s ease ${i * 0.12}s, transform 0.7s ease ${i * 0.12}s`;
+    requestAnimationFrame(() => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+  });
+});
+</script>
+
+</body>
+</html>
